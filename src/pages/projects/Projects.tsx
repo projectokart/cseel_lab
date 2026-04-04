@@ -326,8 +326,8 @@ const HeroBanner = ({ totalCount }: { totalCount: number | null }) => {
             {/* Stats */}
             <div className="flex flex-wrap gap-4 md:gap-8 pt-4 md:pt-5 border-t border-white/10">
               {[
-                { value: "43,000+", label: "Projects", color: "text-yellow-400" },
-                { value: "32+", label: "Categories", color: "text-blue-300" },
+                { value: "42,000+", label: "Projects", color: "text-yellow-400" },
+                { value: "8+", label: "Categories", color: "text-blue-300" },
                 { value: "24/7", label: "Community", color: "text-purple-300" },
                 { value: "AI→IoT", label: "Full Stack Hardware", color: "text-emerald-300" },
               ].map((stat, i) => (
@@ -704,7 +704,7 @@ const Projects = () => {
         <HeroBanner totalCount={totalCount} />
 
         {/* ── STICKY HEADER ── */}
-        <div className="sticky top-0 z-[300] bg-white/95 backdrop-blur-md border-b shadow-sm">
+        <div className="bg-white/95 backdrop-blur-md border-b shadow-sm">
           <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center gap-3">
             {/* Search */}
             <div className="relative flex-1">
@@ -807,7 +807,7 @@ const Projects = () => {
 
             {/* First-load skeletons */}
             {isFirstLoad && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
                 {Array.from({ length: PAGE_SIZE }).map((_, i) => <SkeletonCard key={i} />)}
               </div>
             )}
@@ -816,12 +816,12 @@ const Projects = () => {
             {!isFirstLoad && (
               <>
                 {projects.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
                     {projects.map((p, i) => (
                       <div
                         key={p.id}
                         onClick={() => navigate(`/project/${p.id}`)}
-                        className="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:border-gray-200 transition-all duration-200 cursor-pointer flex flex-col"
+                        className="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-lg hover:border-gray-200 transition-all duration-200 cursor-pointer flex flex-col"
                         style={{
                           // Stagger fade-in only for first page
                           animation: i < PAGE_SIZE
@@ -831,7 +831,7 @@ const Projects = () => {
                         }}
                       >
                         {/* Thumbnail */}
-                        <div className="relative h-48 overflow-hidden bg-gray-50 flex-shrink-0">
+                        <div className="relative h-40 overflow-hidden bg-gray-50 flex-shrink-0">
                           <ProjectImage
                             src={p.thumbnail_url ?? ""}
                             alt={p.title}
@@ -855,17 +855,17 @@ const Projects = () => {
                         </div>
 
                         {/* Card body */}
-                        <div className="p-4 flex flex-col flex-1">
+                        <div className="p-3 flex flex-col flex-1">
                           <h3 className="text-sm font-bold text-gray-900 leading-snug mb-1 line-clamp-2 group-hover:text-primary transition-colors">{p.title}</h3>
-                          <p className="text-xs text-gray-500 mb-3 line-clamp-2">{p.description}</p>
+                          <p className="text-xs text-gray-500 mb-2 line-clamp-2">{p.description}</p>
                           {(p.tags ?? []).length > 0 && (
-                            <div className="flex flex-wrap gap-1 mb-3">
+                            <div className="flex flex-wrap gap-1 mb-2">
                               {(p.tags ?? []).slice(0, 3).map(tag => (
                                 <span key={tag} className="px-2 py-0.5 bg-gray-100 text-gray-500 text-[9px] font-medium rounded-full">{tag}</span>
                               ))}
                             </div>
                           )}
-                          <div className="mt-auto flex items-center justify-between pt-3 border-t border-gray-50">
+                          <div className="mt-auto flex items-center justify-between pt-2 border-t border-gray-50">
                             <div className="flex items-center gap-3 text-[10px] text-gray-400 font-medium">
                               <span className="flex items-center gap-1"><Eye className="h-3 w-3" />{fmt(p.views ?? 0)}</span>
                               <span className="flex items-center gap-1"><Heart className="h-3 w-3" />{fmt(p.likes ?? 0)}</span>
