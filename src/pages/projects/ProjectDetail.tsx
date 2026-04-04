@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { useEffect } from "react";
 import Layout from "@/components/layout/Layout";
 import PageTransition from "@/components/shared/PageTransition";
 import { ArrowLeft, Star, Eye, Heart, Clock, Cpu, Tag, User, Calendar, ExternalLink } from "lucide-react";
@@ -48,6 +49,106 @@ const ProjectDetail = () => {
       </PageTransition>
     );
   }
+
+
+  // ── Dynamic SEO Meta Tags ─────────────────────────────────────────────────
+  useEffect(() => {
+    if (!project) return;
+
+    const siteName = "Projectokart | Projectkart";
+    const title = `${project.title} | ${project.category} Project | Projectokart`;
+    const desc = project.desc?.slice(0, 160) || `${project.title} - A ${project.difficulty} level ${project.category} project on Projectokart.`;
+    const image = project.img || "https://cseel.org/images/logo.png";
+    const url = window.location.href;
+    const keywords = [
+      project.title, project.category, project.subcategory,
+      ...(project.tags || []), project.difficulty,
+      "hardware project", "diy project", "arduino project",
+      "iot project", "embedded systems", "electronics project", "projectokart"
+    ].filter(Boolean).join(", ");
+
+    // Page title
+    document.title = title;
+
+    const setMeta = (selector: string, attr: string, value: string) => {
+      let el = document.querySelector(selector) as HTMLMetaElement | null;
+      if (!el) {
+        el = document.createElement("meta");
+        document.head.appendChild(el);
+      }
+      el.setAttribute(attr, value);
+    };
+
+    // Standard SEO
+    setMeta('meta[name="description"]',         "content", desc);
+    setMeta('meta[name="keywords"]',            "content", keywords);
+    setMeta('meta[name="author"]',              "content", project.author || siteName);
+    setMeta('meta[name="robots"]',              "content", "index, follow");
+
+    // Open Graph — WhatsApp, Facebook, LinkedIn, Telegram
+    setMeta('meta[property="og:title"]',        "content", title);
+    setMeta('meta[property="og:description"]',  "content", desc);
+    setMeta('meta[property="og:image"]',        "content", image);
+    setMeta('meta[property="og:image:width"]',  "content", "1200");
+    setMeta('meta[property="og:image:height"]', "content", "630");
+    setMeta('meta[property="og:url"]',          "content", url);
+    setMeta('meta[property="og:type"]',         "content", "article");
+    setMeta('meta[property="og:site_name"]',    "content", siteName);
+    setMeta('meta[property="og:locale"]',       "content", "en_IN");
+
+    // Article meta
+    setMeta('meta[property="article:section"]', "content", project.category);
+    setMeta('meta[property="article:tag"]',     "content", (project.tags || []).join(", "));
+
+    // Twitter / X Card — also used by Instagram link previews
+    setMeta('meta[name="twitter:card"]',        "content", "summary_large_image");
+    setMeta('meta[name="twitter:title"]',       "content", title);
+    setMeta('meta[name="twitter:description"]', "content", desc);
+    setMeta('meta[name="twitter:image"]',       "content", image);
+    setMeta('meta[name="twitter:site"]',        "content", "@projectokart");
+
+    // Canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute("href", url);
+
+    // Structured Data — JSON-LD for Google rich results
+    const existingScript = document.getElementById("project-jsonld");
+    if (existingScript) existingScript.remove();
+    const script = document.createElement("script");
+    script.id = "project-jsonld";
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": project.title,
+      "description": desc,
+      "image": image,
+      "author": { "@type": "Person", "name": project.author || "Projectokart" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Projectokart",
+        "logo": { "@type": "ImageObject", "url": "https://cseel.org/images/logo.png" }
+      },
+      "dateModified": project.updated,
+      "keywords": keywords,
+      "url": url,
+      "articleSection": project.category,
+      "inLanguage": "en-IN"
+    });
+    document.head.appendChild(script);
+
+    // Cleanup on unmount
+    return () => {
+      document.title = "Projectokart | Hardware Projects for Makers";
+      const jsonld = document.getElementById("project-jsonld");
+      if (jsonld) jsonld.remove();
+    };
+  }, [project]);
 
   const related = ALL_PROJECTS.filter(p => p.id !== project.id && (p.category === project.category || p.subcategory === project.subcategory)).slice(0, 3);
 
