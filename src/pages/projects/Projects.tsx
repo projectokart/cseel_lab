@@ -304,7 +304,7 @@ const HeroBanner = ({ totalCount }: { totalCount: number | null }) => {
               className="text-xs md:text-sm text-gray-300 mb-5 md:mb-7 leading-relaxed"
             >
               Explore{" "}
-              <span className="text-yellow-400 font-semibold">42,000+ projects</span>{" "}
+              <span className="text-yellow-400 font-semibold">43,000+ projects</span>{" "}
               spanning{" "}
               <span className="text-white font-medium">AI & ML</span>,{" "}
               <span className="text-white font-medium">PCB Design</span>,{" "}
@@ -326,11 +326,11 @@ const HeroBanner = ({ totalCount }: { totalCount: number | null }) => {
             {/* Stats */}
             <div className="flex flex-wrap gap-4 md:gap-8 pt-4 md:pt-5 border-t border-white/10">
               {[
-                { value: "42,000+", label: "Projects", color: "text-yellow-400" },
+                { value: "43,000+", label: "Projects", color: "text-yellow-400" },
                 { value: "35+", label: "Categories", color: "text-blue-300" },
        { value: "120+", label: "Subcategories", color: "text-blue-200" },
                 { value: "24/7", label: "Community", color: "text-purple-300" },
-                { value: "AI→IoT", label: "Full Stack Hardware", color: "text-emerald-300" },
+             
               ].map((stat, i) => (
                 <div key={i} className="flex flex-col gap-0.5">
                   <span className={`text-lg md:text-2xl lg:text-3xl font-black ${stat.color}`}>
