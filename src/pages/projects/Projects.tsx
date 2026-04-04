@@ -21,7 +21,7 @@ import PageTransition from "@/components/shared/PageTransition";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, X, Check, Star, Clock, Eye, Heart,
-  Filter, ArrowUpDown, Zap, FolderOpen, Plus, ShoppingCart, Loader2, Sparkles, ChevronRight,
+  Filter, ArrowUpDown, Zap, FolderOpen, Plus, ShoppingCart, Loader2, Sparkles, ChevronRight, Share2,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -133,7 +133,7 @@ const ProjectImage = ({
 // ── Premium Hero Banner ───────────────────────────────────────────────────────
 
 
-const HeroBanner = () => {
+const HeroBanner = ({ totalCount }: { totalCount: number | null }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [init, setInit] = useState(false); // New state for v3 engine
 
@@ -304,7 +304,7 @@ const HeroBanner = () => {
               className="text-xs md:text-sm text-gray-300 mb-5 md:mb-7 leading-relaxed"
             >
               Explore{" "}
-              <span className="text-yellow-400 font-semibold">50,000+ projects</span>{" "}
+              <span className="text-yellow-400 font-semibold">42,000+ projects</span>{" "}
               spanning{" "}
               <span className="text-white font-medium">AI & ML</span>,{" "}
               <span className="text-white font-medium">PCB Design</span>,{" "}
@@ -326,8 +326,8 @@ const HeroBanner = () => {
             {/* Stats */}
             <div className="flex flex-wrap gap-4 md:gap-8 pt-4 md:pt-5 border-t border-white/10">
               {[
-                { value: "50,000+", label: "Projects", color: "text-yellow-400" },
-                { value: "8+", label: "Categories", color: "text-blue-300" },
+                { value: "43,000+", label: "Projects", color: "text-yellow-400" },
+                { value: "32+", label: "Categories", color: "text-blue-300" },
                 { value: "24/7", label: "Community", color: "text-purple-300" },
                 { value: "AI→IoT", label: "Full Stack Hardware", color: "text-emerald-300" },
               ].map((stat, i) => (
@@ -701,7 +701,7 @@ const Projects = () => {
     <PageTransition>
       <Layout>
         {/* Premium Hero Banner */}
-        <HeroBanner />
+        <HeroBanner totalCount={totalCount} />
 
         {/* ── STICKY HEADER ── */}
         <div className="sticky top-0 z-[300] bg-white/95 backdrop-blur-md border-b shadow-sm">
@@ -873,24 +873,46 @@ const Projects = () => {
                             </div>
                             {p.duration && <span className="flex items-center gap-1 text-[10px] text-gray-400"><Clock className="h-3 w-3" />{p.duration}</span>}
                           </div>
-                          <button
-                            onClick={async (e) => {
-                              e.stopPropagation();
-                              if (!user) { navigate("/login"); return; }
-                              setCreatingProject(true);
-                              try {
-                                await (supabase as any)
-                                  .from("user_projects")
-                                  .insert({ user_id: user.id, title: p.title, description: p.description, status: "active" });
-                                navigate("/my-projects");
-                              } catch {}
-                              finally { setCreatingProject(false); }
-                            }}
-                            className="mt-3 w-full py-2 rounded-xl text-xs font-bold bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-1.5"
-                          >
-                            {creatingProject ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
-                            Start this Project
-                          </button>
+                          <div className="mt-3 flex gap-2">
+                            <button
+                              onClick={async (e) => {
+                                e.stopPropagation();
+                                if (!user) { navigate("/login"); return; }
+                                setCreatingProject(true);
+                                try {
+                                  await (supabase as any)
+                                    .from("user_projects")
+                                    .insert({ user_id: user.id, title: p.title, description: p.description, status: "active" });
+                                  navigate("/my-projects");
+                                } catch {}
+                                finally { setCreatingProject(false); }
+                              }}
+                              className="flex-1 py-2 rounded-xl text-xs font-bold bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-1.5"
+                            >
+                              {creatingProject ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
+                              Start this Project
+                            </button>
+                            <button
+                              onClick={async (e) => {
+                                e.stopPropagation();
+                                const url = `${window.location.origin}/project/${p.id}`;
+                                if (navigator.share) {
+                                  try { await navigator.share({ title: p.title, text: p.description ?? "", url }); } catch {}
+                                } else {
+                                  await navigator.clipboard.writeText(url);
+                                  const t = e.currentTarget as HTMLButtonElement;
+                                  const orig = t.innerHTML;
+                                  t.innerHTML = "✓";
+                                  t.style.color = "#22c55e";
+                                  setTimeout(() => { t.innerHTML = orig; t.style.color = ""; }, 1500);
+                                }
+                              }}
+                              title="Share project"
+                              className="px-3 py-2 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-all flex items-center justify-center"
+                            >
+                              <Share2 className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))}
