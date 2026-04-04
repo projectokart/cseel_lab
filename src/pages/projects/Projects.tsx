@@ -327,7 +327,8 @@ const HeroBanner = ({ totalCount }: { totalCount: number | null }) => {
             <div className="flex flex-wrap gap-4 md:gap-8 pt-4 md:pt-5 border-t border-white/10">
               {[
                 { value: "42,000+", label: "Projects", color: "text-yellow-400" },
-                { value: "8+", label: "Categories", color: "text-blue-300" },
+                { value: "35+", label: "Categories", color: "text-blue-300" },
+       { value: "120+", label: "Subcategories", color: "text-blue-200" },
                 { value: "24/7", label: "Community", color: "text-purple-300" },
                 { value: "AI→IoT", label: "Full Stack Hardware", color: "text-emerald-300" },
               ].map((stat, i) => (
