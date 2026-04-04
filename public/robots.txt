@@ -1,0 +1,49 @@
+# =====================================================
+# robots.txt — CSEEL (https://www.cseel.org)
+# =====================================================
+
+# Allow all major search engines full crawl access
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: *
+Allow: /
+
+# Block admin and private areas
+Disallow: /admin/
+Disallow: /teacher/
+Disallow: /student/
+Disallow: /profile
+Disallow: /settings
+Disallow: /cart
+Disallow: /login
+Disallow: /reset-password
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /404
+
+# Sitemap location
+Sitemap: https://www.cseel.org/sitemap.xml

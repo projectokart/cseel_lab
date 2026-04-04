@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" fill="none">
+  <rect width="800" height="600" fill="#E6F1FB" rx="8"/>
+  <rect x="340" y="240" width="120" height="120" rx="12" fill="#B5D4F4"/>
+  <path d="M380 300 L400 270 L420 300 Z" fill="#185FA5"/>
+  <rect x="370" y="295" width="20" height="25" rx="3" fill="#185FA5"/>
+  <text x="400" y="400" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#185FA5" font-weight="500">CSEEL</text>
+  <text x="400" y="425" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#378ADD">Science Education</text>
+</svg>

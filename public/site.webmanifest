@@ -1,0 +1,36 @@
+{
+  "name": "CSEEL - Center for Scientific Exploration & Experimental Learning",
+  "short_name": "CSEEL",
+  "description": "India's leading platform for hands-on science experiments, virtual lab simulations, STEM education and teacher training.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0a5c8a",
+  "lang": "en-IN",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["education", "science", "kids"],
+  "screenshots": [
+    {
+      "src": "/images/og-cover.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg"
+    }
+  ]
+}
